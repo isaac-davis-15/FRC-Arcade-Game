@@ -21,8 +21,7 @@ player1_blue_id = 0
 player1_red_id = 1
 player2_blue_id = 2
 player2_red_id = 3
-
-def playerUpdate(id, rot)
+		
 
 def frame(x, y):
 	frame = pygame.image.load('game_frame_large.png')
