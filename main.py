@@ -16,27 +16,18 @@ crashed = False
 	Enviorment varibles for the code
 """
 white = (255, 255, 255)
-
-player1_blue_id = 0
-player1_red_id = 1
-player2_blue_id = 2
-player2_red_id = 3
 		
+robotX = display_width/2
+robotY = display_height/2
 
-def frame(x, y):
+def frame():
 	frame = pygame.image.load('game_frame_large.png')
-	gameDisplay.blit(frame, (x, y))
-
-
+	gameDisplay.blit(frame,(0, 0))
+	
 while not crashed:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            crashed = True
-
-    gameDisplay.fill(white)
-    frame(0, 0)
-
-        
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT:
+			crashed = True	
     pygame.display.update()
     clock.tick(60)
 
