@@ -27,9 +27,11 @@ def frame():
 while not crashed:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
-			crashed = True	
-    pygame.display.update()
-    clock.tick(60)
+			crashed = True
+		else:	
+			pygame.display.update()
+			clock.tick(60)
+	frame()		
 
 pygame.quit()
 quit()
