@@ -28,10 +28,10 @@ def scoreFrame():
 	frame = pygame.image.load('./spr_FRC_game/game_frame_large.png')
 	gameDisplay.blit(frame,(0, 0))
 	
-def cornFrame():
+def cornFrame():  
 	#240 x 240
 	frame = pygame.image.load('./spr_FRC_game/corn_map.png')
-	gameDisplay.blit(frame, ((display_width/2) - 120, (display_height/2) - 120))
+	gameDisplay.blit(frame, ((display_width/2) - 240, (display_height/2) - 240))
 
 def player1(x, y):
 	playerTex = pygame.image.load('./spr_FRC_game/robo_1.png')
@@ -42,12 +42,16 @@ def player2(x, y):
 	gameDisplay.blit(playerTex, (x, y))
 
 while not crashed:
+	#Check if the game is trying to be closed
+	#==============================================
 	events = pygame.event.get()
 	for event in events:
 		if event.type == pygame.QUIT:
 			crashed = True
+			
+	#Check keyboard and change the cord.
+	#==============================================
 	keyHandler = pygame.key.get_pressed()
-
 	if(keyHandler[273]): #Up
 		robot1Y -= speed
 	elif(keyHandler[274]): #Down
@@ -65,6 +69,10 @@ while not crashed:
 		robot2X += speed
 	if(keyHandler[119]):
 		robot2Y -= speed
+		
+
+	#Update frames and player cord.
+	#===============================================
 	scoreFrame()
 	cornFrame()
 	player1(robot1X, robot1Y)
@@ -72,7 +80,6 @@ while not crashed:
 	
 	#check bounds
 	#===============================================
-	
 	if(robot1X <= 0):
 		robot1X = 0
 	if(robot1X >= display_width - 24):
@@ -82,7 +89,12 @@ while not crashed:
 	if(robot1Y >= display_height - 24):
 		robot1Y = display_height - 24 #Acounting the size of the image 
 	
+	#update the screen and set clock time
+	#===============================================
 	pygame.display.update()
 	clock.tick(60)
+	
+#exit if game loop is broken 
+#===================================================	
 pygame.quit()
-quit()
+exit()
