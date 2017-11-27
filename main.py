@@ -24,10 +24,15 @@ robot1Y = display_height/2
 robot2X = (display_width/4) * 3
 robot2Y = display_height/2
 
-def frame():
+def scoreFrame():
 	frame = pygame.image.load('./spr_FRC_game/game_frame_large.png')
 	gameDisplay.blit(frame,(0, 0))
 	
+def cornFrame():
+	#240 x 240
+	frame = pygame.image.load('./spr_FRC_game/corn_map.png')
+	gameDisplay.blit(frame, ((display_width/2) - 120, (display_height/2) - 120))
+
 def player1(x, y):
 	playerTex = pygame.image.load('./spr_FRC_game/robo_1.png')
 	gameDisplay.blit(playerTex, (x, y))
@@ -60,7 +65,8 @@ while not crashed:
 		robot2X += speed
 	if(keyHandler[119]):
 		robot2Y -= speed
-	frame()		
+	scoreFrame()
+	cornFrame()
 	player1(robot1X, robot1Y)
 	player2(robot2X, robot2Y)
 	
