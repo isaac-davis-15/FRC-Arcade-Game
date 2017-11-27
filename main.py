@@ -41,6 +41,14 @@ def player2(x, y):
 	playerTex = pygame.image.load('./spr_FRC_game/robo_1.png')
 	gameDisplay.blit(playerTex, (x, y))
 
+def drawRedGoal():
+	tex = pygame.image.load('./spr_FRC_game/read_goal.png')
+	gameDisplay.blit(tex, (display_width/2 + (240 - 50), display_height/2 + (240 - 50)))
+	
+def drawBlueGoal():
+	tex = pygame.image.load('./spr_FRC_game/blue_goal.png')
+	gameDisplay.blit(tex, (display_width/2 - 240, display_height/2 - 240))
+	
 while not crashed:
 	#Check if the game is trying to be closed
 	#==============================================
@@ -76,8 +84,11 @@ while not crashed:
 	#===============================================
 	scoreFrame()
 	cornFrame()
+	drawBlueGoal()
+	drawRedGoal()
 	player1(robot1X, robot1Y)
 	player2(robot2X, robot2Y)
+	
 	
 	#check bounds
 	#===============================================
