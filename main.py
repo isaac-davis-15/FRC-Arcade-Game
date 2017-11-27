@@ -7,7 +7,7 @@ display_height = 600
 pygame.init()
 
 gameDisplay = pygame.display.set_mode((display_width, display_height))
-pygame.display.set_caption('Test me')
+pygame.display.set_caption('FRC Game')
 
 clock = pygame.time.Clock()
 crashed = False
@@ -32,7 +32,7 @@ def cornFrame():
 	#240 x 240
 	frame = pygame.image.load('./spr_FRC_game/corn_map.png')
 	gameDisplay.blit(frame, ((display_width/2) - 240, (display_height/2) - 240))
-
+	
 def player1(x, y):
 	playerTex = pygame.image.load('./spr_FRC_game/robo_1.png')
 	gameDisplay.blit(playerTex, (x, y))
@@ -71,7 +71,8 @@ while not crashed:
 		robot2Y -= speed
 		
 
-	#Update frames and player cord.
+	#Update frames and player cord. 
+	#(the order of the code is the order at which the images are drawn)
 	#===============================================
 	scoreFrame()
 	cornFrame()
@@ -80,16 +81,30 @@ while not crashed:
 	
 	#check bounds
 	#===============================================
-	if(robot1X <= 0):
-		robot1X = 0
-	if(robot1X >= display_width - 24):
-		robot1X = display_width - 24 #Acounting the size of the image 
-	if(robot1Y <= 0):
-		robot1Y = 0
-	if(robot1Y >= display_height - 24):
-		robot1Y = display_height - 24 #Acounting the size of the image 
+	top_border = display_height/2 - 240
+	bottom_border = display_height/2 + 240
+	right_border = display_width/2 + 240
+	left_border = display_width/2 - 240
 	
-	#update the screen and set clock time
+	if(robot1X <= left_border):
+		robot1X = left_border
+	if(robot1X >= right_border - 24):
+		robot1X = right_border - 24 #Acounting the size of the image 
+	if(robot1Y <= top_border):
+		robot1Y = top_border
+	if(robot1Y >= bottom_border - 24):
+		robot1Y = bottom_border - 24 #Acounting the size of the image 
+	
+	if(robot2X <= left_border):
+		robot2X = left_border
+	if(robot2X >= right_border - 24):
+		robot2X = right_border - 24 #Acounting the size of the image 
+	if(robot2Y <= top_border):
+		robot2Y = top_border
+	if(robot2Y >= bottom_border - 24):
+		robot2Y = bottom_border - 24 #Acounting the size of the image 
+	
+	#update the screen, flip the display, and set clock time
 	#===============================================
 	pygame.display.update()
 	clock.tick(60)
