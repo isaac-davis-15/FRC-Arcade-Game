@@ -13,6 +13,10 @@ pygame.display.set_caption('FRC Game')
 clock = pygame.time.Clock()
 crashed = False
 
+scoreFont = pygame.font.SysFont("monospace", 50)
+
+roboLength = 48
+
 """
 	Enviorment varibles for the code
 """
@@ -25,10 +29,12 @@ robot2X = (display_width/4) * 3
 robot2Y = display_height/2
 ballX = []
 ballY = []
+score1 = 0
+score2 = 0
 
 for i in range(50):
-	x = random.randint(-50, 50)
-	y = random.randint(-50, 50)
+	x = random.randint(-100, 100)
+	y = random.randint(-100, 100)
 	ballX.append(int(x))
 	ballY.append(int(y))
 
@@ -44,7 +50,7 @@ def cornFrame():
 def ballFrame(xCorr, yCorr, num):
 	frame = pygame.image.load('./spr_FRC_game/ball.png')
 	for i in range(num):
-		gameDisplay.blit(frame, ((display_width/2) + int(xCorr), (display_height/2) + int(yCorr)))
+		gameDisplay.blit(frame, ((display_width/2) + xCorr[i], (display_height/2) + yCorr[i]))
 	
 def player1(x, y):
 	playerTex = pygame.image.load('./spr_FRC_game/robo_1.png')
@@ -62,6 +68,13 @@ def drawBlueGoal():
 	tex = pygame.image.load('./spr_FRC_game/blue_goal.png')
 	gameDisplay.blit(tex, (display_width/2 - 240, display_height/2 - 240))
 	
+def fillBallPos(x, y):
+	frame = pygame.image.load('./spr_FRC_game/ball_filler.png')
+	gameDisplay.blit(frame, (x, y))
+	
+def displayScore():
+	lable1 = scoreFont.render(str(score1), 1, (0, 0, 0))
+	gameDisplay.blit(lable1, (display_width/2 - 231, display_height/2 - 242))
 while not crashed:
 	#Check if the game is trying to be closed
 	#==============================================
@@ -81,18 +94,18 @@ while not crashed:
 	keyHandler = pygame.key.get_pressed()
 	if(keyHandler[273] and robot1Y >= top_border + speed): #Up
 		robot1Y -= speed
-	elif(keyHandler[274] and robot1Y <= (bottom_border - 24) - speed): #Down
+	elif(keyHandler[274] and robot1Y <= (bottom_border - roboLength) - speed): #Down
 		robot1Y += speed
-	if(keyHandler[275] and robot1X <= (right_border - 24) - speed): #Right
+	if(keyHandler[275] and robot1X <= (right_border - roboLength) - speed): #Right
 		robot1X += speed
 	elif(keyHandler[276] and robot1X >= left_border + speed): #Left
 		robot1X -= speed
 	
 	if(keyHandler[97] and robot2X >= left_border + speed): #Left 
 		robot2X -= speed
-	elif(keyHandler[115] and robot2Y <= (bottom_border - 24) - speed): #Down
+	elif(keyHandler[115] and robot2Y <= (bottom_border - roboLength) - speed): #Down
 		robot2Y += speed
-	if(keyHandler[100] and robot2X <= (right_border - 24) - speed): #Right
+	if(keyHandler[100] and robot2X <= (right_border - roboLength) - speed): #Right
 		robot2X += speed
 	elif(keyHandler[119] and robot2Y >= top_border + speed): #Up
 		robot2Y -= speed
@@ -104,9 +117,15 @@ while not crashed:
 	cornFrame()
 	drawBlueGoal()
 	drawRedGoal()
+	displayScore()
 	ballFrame(ballX, ballY, 50)
 	player1(robot1X, robot1Y)
-	player2(robot2X, robot2Y) 
+	player2(robot2X, robot2Y)
+	
+	#Check for ball collision 
+	#===============================================
+	
+
 	
 	#update the screen, flip the display, and set clock time
 	#===============================================
