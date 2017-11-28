@@ -13,7 +13,7 @@ pygame.display.set_caption('FRC Game')
 clock = pygame.time.Clock()
 crashed = False
 
-scoreFont = pygame.font.SysFont("monospace", 50)
+scoreFont = pygame.font.SysFont("monospace", 21)
 
 roboLength = 48
 
@@ -74,7 +74,8 @@ def fillBallPos(x, y):
 	
 def displayScore():
 	lable1 = scoreFont.render(str(score1), 1, (0, 0, 0))
-	gameDisplay.blit(lable1, (display_width/2 - 231, display_height/2 - 242))
+	textWidth1 = lable1.get_width()
+	gameDisplay.blit(lable1, ((display_width/2 - textWidth1/2) - 125, 0))
 while not crashed:
 	#Check if the game is trying to be closed
 	#==============================================
@@ -100,6 +101,7 @@ while not crashed:
 		robot1X += speed
 	elif(keyHandler[276] and robot1X >= left_border + speed): #Left
 		robot1X -= speed
+		score1 += 1
 	
 	if(keyHandler[97] and robot2X >= left_border + speed): #Left 
 		robot2X -= speed
