@@ -1,5 +1,6 @@
 import pygame
 import time 
+import random
 
 display_width = 720
 display_height = 600
@@ -33,9 +34,12 @@ def cornFrame():
 	frame = pygame.image.load('./spr_FRC_game/corn_map.png')
 	gameDisplay.blit(frame, ((display_width/2) - 240, (display_height/2) - 240))
 
-def ballFrame() :
+def ballFrame():
 	frame = pygame.image.load('./spr_FRC_game/ball.png')
-	gameDisplay.blit(frame, ((display_width/2), (display_height/2)))
+	for i in range(50):
+		x = random.randint(-50, 50)
+		y = random.randint(-50, 50)
+		gameDisplay.blit(frame, ((display_width/2) + x, (display_height/2) + y))
 	
 def player1(x, y):
 	playerTex = pygame.image.load('./spr_FRC_game/robo_1.png')
@@ -52,6 +56,12 @@ def drawRedGoal():
 def drawBlueGoal():
 	tex = pygame.image.load('./spr_FRC_game/blue_goal.png')
 	gameDisplay.blit(tex, (display_width/2 - 240, display_height/2 - 240))
+
+scoreFrame()
+cornFrame()
+drawBlueGoal()
+drawRedGoal()
+ballFrame()
 	
 while not crashed:
 	#Check if the game is trying to be closed
@@ -91,11 +101,6 @@ while not crashed:
 	#Update frames and player cord. 
 	#(the order of the code is the order at which the images are drawn)
 	#===============================================
-	scoreFrame()
-	cornFrame()
-	drawBlueGoal()
-	drawRedGoal()
-	ballFrame()
 	player1(robot1X, robot1Y)
 	player2(robot2X, robot2Y) 
 	
