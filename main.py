@@ -20,9 +20,9 @@ white = (255, 255, 255)
 speed = 12		
 robot1X = display_width/4
 robot1Y = display_height/2
-
 robot2X = (display_width/4) * 3
 robot2Y = display_height/2
+balls = []
 
 def scoreFrame():
 	frame = pygame.image.load('./spr_FRC_game/game_frame_large.png')
@@ -32,6 +32,10 @@ def cornFrame():
 	#240 x 240
 	frame = pygame.image.load('./spr_FRC_game/corn_map.png')
 	gameDisplay.blit(frame, ((display_width/2) - 240, (display_height/2) - 240))
+
+def ballFrame() :
+	frame = pygame.image.load('./spr_FRC_game/ball.png')
+	gameDisplay.blit(frame, ((display_width/2), (display_height/2)))
 	
 def player1(x, y):
 	playerTex = pygame.image.load('./spr_FRC_game/robo_1.png')
@@ -109,6 +113,7 @@ while not crashed:
 	cornFrame()
 	drawBlueGoal()
 	drawRedGoal()
+	ballFrame()
 	player1(robot1X, robot1Y)
 	player2(robot2X, robot2Y)
 	
