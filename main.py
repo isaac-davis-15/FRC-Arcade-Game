@@ -79,33 +79,15 @@ while not crashed:
 	elif(keyHandler[276] and robot1X >= left_border + speed): #Left
 		robot1X -= speed
 	
-	if(keyHandler[97] and robot2X >= left_border + speed): 
-		print("LEFT")
+	if(keyHandler[97] and robot2X >= left_border + speed): #Left 
 		robot2X -= speed
-	elif(keyHandler[115] and robot2Y <= (bottom_border - 24) - speed):
-		print("DOWN")
+	elif(keyHandler[115] and robot2Y <= (bottom_border - 24) - speed): #Down
 		robot2Y += speed
-	if(keyHandler[100] and robot2X <= (right_border - 24) - speed): 
-		print("RIGHT")
+	if(keyHandler[100] and robot2X <= (right_border - 24) - speed): #Right
 		robot2X += speed
-	elif(keyHandler[119] and robot2Y >= top_border + speed):
-		print("UP")
+	elif(keyHandler[119] and robot2Y >= top_border + speed): #Up
 		robot2Y -= speed
-	
-	#if(keyHandler[97]):
-	#	print("lEFT")
-	#	robot2X -= speed
-	#if(keyHandler[115]):
-	#	print("DOWN")
-	#	robot2Y += speed
-	#if(keyHandler[100]):
-	#	print("RIGHT")
-	#	robot2X += speed
-	#if(keyHandler[119]):
-	#	print("UP")
-	#	robot2Y -= speed
 		
-
 	#Update frames and player cord. 
 	#(the order of the code is the order at which the images are drawn)
 	#===============================================
@@ -115,29 +97,7 @@ while not crashed:
 	drawRedGoal()
 	ballFrame()
 	player1(robot1X, robot1Y)
-	player2(robot2X, robot2Y)
-	
-	
-	#check bounds
-	#===============================================
-	
-	if():
-		robot1X = left_border
-	if():
-		robot1X = right_border - 24 #Acounting the size of the image 
-	if():
-		robot1Y = top_border
-	if():
-		robot1Y = bottom_border - 24 #Acounting the size of the image 
-	
-	if(robot2X <= left_border):
-		robot2X = left_border
-	if(robot2X >= right_border - 24):
-		robot2X = right_border - 24 #Acounting the size of the image 
-	if(robot2Y <= top_border):
-		robot2Y = top_border
-	if(robot2Y >= bottom_border - 24):
-		robot2Y = bottom_border - 24 #Acounting the size of the image 
+	player2(robot2X, robot2Y) 
 	
 	#update the screen, flip the display, and set clock time
 	#===============================================
