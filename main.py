@@ -37,6 +37,12 @@ for i in range(50):
 	y = random.randint(-100, 100)
 	ballX.append(int(x))
 	ballY.append(int(y))
+	
+def ballCollision():
+	for i in range(len(ballX)):
+		if(robot1X < ballX[i]):
+			del ballX[i]
+			del ballY[i]
 
 def scoreFrame():
 	frame = pygame.image.load('./spr_FRC_game/game_frame_large.png')
@@ -101,7 +107,6 @@ while not crashed:
 		robot1X += speed
 	elif(keyHandler[276] and robot1X >= left_border + speed): #Left
 		robot1X -= speed
-		score1 += 1
 	
 	if(keyHandler[97] and robot2X >= left_border + speed): #Left 
 		robot2X -= speed
@@ -123,6 +128,7 @@ while not crashed:
 	ballFrame(ballX, ballY, 50)
 	player1(robot1X, robot1Y)
 	player2(robot2X, robot2Y)
+	ballCollision()
 	
 	#Check for ball collision 
 	#===============================================
