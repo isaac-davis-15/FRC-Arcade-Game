@@ -32,8 +32,6 @@ ballY = []
 score1 = 0
 score2 = 0
 
-print("Balls:")
-
 ballX = random.sample(range(-100, 100), 50)
 ballY = random.sample(range(-100, 100), 50)
 
@@ -42,6 +40,8 @@ ballY = random.sample(range(-100, 100), 50)
 def ballCollision():
 	global ballX
 	global ballY
+	global score1
+	global score2
 	
 	newX = ballX
 	newY = ballY
@@ -49,12 +49,20 @@ def ballCollision():
 	if len(ballX) == len(ballY):
 		i = 0 
 		while i < len(ballX):
-			xArg = robot1X < (display_width/2 + ballX[i]) < (robot1X + roboLength) 
-			yArg = robot1Y < (display_width/2 + ballY[i]) - roboLength < (robot1Y + roboLength)
-			if(xArg and yArg):
-				print("test")
+			OnexArg = robot1X < (display_width/2 + ballX[i]) < (robot1X + roboLength) 
+			OneyArg = robot1Y < (display_width/2 + ballY[i]) - roboLength < (robot1Y + roboLength)
+			
+			TwoxArg = robot2X < (display_width/2 + ballX[i]) < (robot2X + roboLength) 
+			TwoyArg = robot2Y < (display_width/2 + ballY[i]) - roboLength < (robot2Y + roboLength)
+
+			if(OnexArg and OneyArg):
 				newX.remove(ballX[i])
 				newY.remove(ballY[i])
+				score1+=1
+			elif(TwoxArg and TwoyArg):
+				newX.remove(ballX[i])
+				newY.remove(ballY[i])
+				score2+=1
 			i += 1
 				
 	else:
