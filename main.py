@@ -32,18 +32,39 @@ ballY = []
 score1 = 0
 score2 = 0
 
-for i in range(50):
-	x = random.randint(-100, 100)
-	y = random.randint(-100, 100)
-	ballX.append(int(x))
-	ballY.append(int(y))
-	
-def ballCollision():
-	for i in range(len(ballX)):
-		if(robot1X < ballX[i]):
-			del ballX[i]
-			del ballY[i]
+print("Balls:")
 
+ballX = random.sample(range(-100, 100), 50)
+ballY = random.sample(range(-100, 100), 50)
+
+
+
+def ballCollision():
+	global ballX
+	global ballY
+	
+	newX = ballX
+	newY = ballY
+	
+	if len(ballX) == len(ballY):
+		i = 0 
+		while i < len(ballX):
+			xArg = robot1X < (display_width/2 + ballX[i]) < (robot1X + roboLength) 
+			yArg = robot1Y < (display_width/2 + ballY[i]) - roboLength < (robot1Y + roboLength)
+			if(xArg and yArg):
+				print("test")
+				newX.remove(ballX[i])
+				newY.remove(ballY[i])
+			i += 1
+				
+	else:
+		print("BALL CORD. ERROR")
+		pygame.quit()
+		exit()
+		
+	ballX = newX
+	ballY = newY
+	
 def scoreFrame():
 	frame = pygame.image.load('./spr_FRC_game/game_frame_large.png')
 	gameDisplay.blit(frame,(0, 0))
@@ -53,9 +74,9 @@ def cornFrame():
 	frame = pygame.image.load('./spr_FRC_game/corn_map.png')
 	gameDisplay.blit(frame, ((display_width/2) - 240, (display_height/2) - 240))
 
-def ballFrame(xCorr, yCorr, num):
+def drawBall(xCorr, yCorr):
 	frame = pygame.image.load('./spr_FRC_game/ball.png')
-	for i in range(num):
+	for i in range(len(ballX)):
 		gameDisplay.blit(frame, ((display_width/2) + xCorr[i], (display_height/2) + yCorr[i]))
 	
 def player1(x, y):
@@ -73,10 +94,6 @@ def drawRedGoal():
 def drawBlueGoal():
 	tex = pygame.image.load('./spr_FRC_game/blue_goal.png')
 	gameDisplay.blit(tex, (display_width/2 - 240, display_height/2 - 240))
-	
-def fillBallPos(x, y):
-	frame = pygame.image.load('./spr_FRC_game/ball_filler.png')
-	gameDisplay.blit(frame, (x, y))
 	
 def displayScore():
 	lable1 = scoreFont.render(str(score1), 1, (0, 0, 0))
@@ -125,17 +142,12 @@ while not crashed:
 	drawBlueGoal()
 	drawRedGoal()
 	displayScore()
-	ballFrame(ballX, ballY, 50)
+	drawBall(ballX, ballY)
 	player1(robot1X, robot1Y)
 	player2(robot2X, robot2Y)
 	ballCollision()
 	
-	#Check for ball collision 
-	#===============================================
-	
-
-	
-	#update the screen, flip the display, and set clock time
+	#update the screen, and set clock time
 	#===============================================
 	pygame.display.update()
 	clock.tick(60)
