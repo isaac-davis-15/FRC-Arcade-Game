@@ -104,9 +104,13 @@ def drawBlueGoal():
 	gameDisplay.blit(tex, (display_width/2 - 240, display_height/2 - 240))
 	
 def displayScore():
+	lable2 = scoreFont.render(str(score2), 1, (0, 0, 0))
 	lable1 = scoreFont.render(str(score1), 1, (0, 0, 0))
 	textWidth1 = lable1.get_width()
+	textWidth2 = lable2.get_width()
 	gameDisplay.blit(lable1, ((display_width/2 - textWidth1/2) - 125, 0))
+	gameDisplay.blit(lable2, ((display_width/2 - textWidth2/2) + 125, 0))	
+	
 while not crashed:
 	#Check if the game is trying to be closed
 	#==============================================
