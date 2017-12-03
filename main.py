@@ -1,6 +1,7 @@
 import pygame
 import time 
 import random
+import os
 
 display_width = 720
 display_height = 600
@@ -27,6 +28,8 @@ robot1X = (display_width/4) * 3
 robot1Y = display_height/2
 robot2X = display_width/4
 robot2Y = display_height/2
+robotRect1 = 0
+robotRect2 = 0
 ballX = []
 ballY = []
 score1 = 0
@@ -37,6 +40,9 @@ ballY = random.sample(range(-100, 100), 50)
 
 player1Rot = 0
 player2Rot = 0
+
+def cls():
+    os.system('cls' if os.name=='nt' else 'clear')
 
 def ballCollision():
 	global ballX
@@ -93,7 +99,7 @@ def player1(x, y, rot):
 	playerRot = pygame.transform.rotate(playerTex, rot)
 	gameDisplay.blit(playerRot, (x, y))
 	
-def player2(x, y, rot):
+def player2(x, y, rot):	
 	playerTex = pygame.image.load('./spr_FRC_game/robo_1.png')
 	playerRot = pygame.transform.rotate(playerTex, rot)
 	gameDisplay.blit(playerRot, (x, y))
@@ -114,6 +120,26 @@ def displayScore():
 	gameDisplay.blit(lable1, ((display_width/2 - textWidth1/2) - 125, 0))
 	gameDisplay.blit(lable2, ((display_width/2 - textWidth2/2) + 125, 0))	
 	
+def collideReset():
+	global robot1X
+	global robot1Y
+	global robot2X
+	global robot2Y
+
+	Rect1 = pygame.Rect(robot1X, robot1Y, roboLength, roboLength)
+	Rect2 = pygame.Rect(robot2X, robot2Y, roboLength, roboLength)
+	
+	if(Rect1.colliderect(Rect2)):
+		print("COLLIDE")
+		if(robot2Y > robot1Y):
+			robot1Y = robot1Y - speed
+		else:
+			robot1Y = robot1Y + speed
+		if(robot2X > robot1X):
+			robot1Y = robot1Y - speed
+		else:
+			robot1Y = robot1Y + speed
+
 while not crashed:
 	#Check if the game is trying to be closed
 	#==============================================
@@ -131,6 +157,9 @@ while not crashed:
 	left_border = display_width/2 - 240
 	
 	keyHandler = pygame.key.get_pressed()
+	
+	#spacer
+	
 	if(keyHandler[273] and robot1Y >= top_border + speed): #Up
 		robot1Y -= speed
 		player1Rot = 180
@@ -168,7 +197,7 @@ while not crashed:
 	drawBall(ballX, ballY)
 	player1(robot1X, robot1Y, player1Rot)
 	player2(robot2X, robot2Y, player2Rot)
-	ballCollision()
+	collideReset()
 	
 	#update the screen, and set clock time
 	#===============================================
