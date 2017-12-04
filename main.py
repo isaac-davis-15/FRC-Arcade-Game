@@ -126,19 +126,26 @@ def collideReset():
 	global robot2X
 	global robot2Y
 
+	p1CenterX = robot1X + roboLength/2
+	p1CenterY = robot1Y + roboLength/2
+	
 	Rect1 = pygame.Rect(robot1X, robot1Y, roboLength, roboLength)
 	Rect2 = pygame.Rect(robot2X, robot2Y, roboLength, roboLength)
 	
 	if(Rect1.colliderect(Rect2)):
 		print("COLLIDE")
-		if(robot2Y > robot1Y):
-			robot1Y = robot1Y - speed
-		else:
-			robot1Y = robot1Y + speed
-		if(robot2X > robot1X):
-			robot1Y = robot1Y - speed
-		else:
-			robot1Y = robot1Y + speed
+		if(robot2X < p1CenterX < robot2X + roboLength and robot1Y < robot2Y):
+			robot1Y -= speed/2
+			robot2Y += speed/2
+		elif(robot2X < p1CenterX < robot2X + roboLength and robot1Y > robot2Y):
+			robot1Y += speed/2
+			robot2Y -= speed/2
+		elif(robot2Y < p1CenterY < robot2Y + roboLength and robot1X < robot2X):
+			robot1X -= speed/2
+			robot2X += speed/2
+		elif(robot2Y < p1CenterY < robot2Y + roboLength and robot1X > robot2X):
+			robot1X += speed/2
+			robot2X -= speed/2
 
 while not crashed:
 	#Check if the game is trying to be closed
@@ -197,6 +204,7 @@ while not crashed:
 	drawBall(ballX, ballY)
 	player1(robot1X, robot1Y, player1Rot)
 	player2(robot2X, robot2Y, player2Rot)
+	ballCollision()
 	collideReset()
 	
 	#update the screen, and set clock time
