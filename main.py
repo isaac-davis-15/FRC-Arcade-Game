@@ -3,8 +3,7 @@ import time
 import random
 import os
 
-display_width = 720
-display_height = 600
+#init
 
 pygame.init()
 
@@ -12,43 +11,56 @@ gameDisplay = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption('FRC Game')
 
 clock = pygame.time.Clock()
+
+#game varibles
+
+display_width = 720
+display_height = 600
+
 crashed = False
 
-scoreFont = pygame.font.SysFont("monospace", 21)
+#Player varibles
+
+speed = 12		
 
 roboLength = 48
 
-"""
-	Player varibles
-"""
-white = (255, 255, 255)
-
-speed = 12		
 robot1X = (display_width/4) * 3
 robot1Y = display_height/2
+
 robot2X = display_width/4
 robot2Y = display_height/2
-robotRect1 = 0
-robotRect2 = 0
-ballX = []
-ballY = []
-score1 = 0
-score2 = 0
 
-ballX = random.sample(range(-100, 100), 50)
-ballY = random.sample(range(-100, 100), 50)
+robot1Staged = 0
+robot2Staged = 0
+
+robot1StagedPos = random.sample(range(-10, 10), 6)
+robot2StagedPos = random.sample(range(-10, 10), 6)
 
 player1Rot = 0
 player2Rot = 0
 
+#ball varibles
+
+ballX = random.sample(range(-100, 100), 50)
+ballY = random.sample(range(-100, 100), 50)
+
+#score varibles
+
+scoreFont = pygame.font.SysFont("monospace", 21)
+
+score1 = 0
+score2 = 0
+
+
 def cls():
     os.system('cls' if os.name=='nt' else 'clear')
 
-def ballCollision():
+def ballCollision(stage1, stage2):
 	global ballX
 	global ballY
-	global score1
-	global score2
+	global robot1Staged
+	global robot2Staged
 	
 	newX = ballX
 	newY = ballY
@@ -62,14 +74,14 @@ def ballCollision():
 			TwoxArg = robot2X < (display_width/2 + ballX[i]) < (robot2X + roboLength) 
 			TwoyArg = robot2Y < (display_width/2 + ballY[i]) - roboLength < (robot2Y + roboLength)
 
-			if(OnexArg and OneyArg):
+			if(OnexArg and OneyArg and stage1):
 				newX.remove(ballX[i])
 				newY.remove(ballY[i])
-				score1+=1
-			elif(TwoxArg and TwoyArg):
+				robot1Staged += 1
+			elif(TwoxArg and TwoyArg and stage2):
 				newX.remove(ballX[i])
 				newY.remove(ballY[i])
-				score2+=1
+				robot2Staged += 1
 			i += 1
 				
 	else:
@@ -80,6 +92,18 @@ def ballCollision():
 	ballX = newX
 	ballY = newY
 	
+def drawStagedBalls(): 
+	global robot1Staged
+	global robot2Staged
+	
+	for i in range(robot1Staged):
+		img = pygame.image.load('./spr_FRC_game/ball.png')
+		gameDisplay.blit(img, ((robot1X + roboLength/2) + robot1StagedPos[i], (robot1Y + roboLength/2) + robot1StagedPos[i]))
+
+	for i in range(robot2Staged):
+		img = pygame.image.load('./spr_FRC_game/ball.png')
+		gameDisplay.blit(img, ((robot2X + roboLength/2) + robot2StagedPos[i], (robot2Y + roboLength/2) + robot2StagedPos[i]))
+	 
 def scoreFrame():
 	frame = pygame.image.load('./spr_FRC_game/game_frame_large.png')
 	gameDisplay.blit(frame,(0, 0))
@@ -193,6 +217,17 @@ while not crashed:
 		robot2Y -= speed
 		player2Rot = 180
 		
+	#Check if players can pickup balls
+	if(robot1Staged < 3):
+		can1PickUp = True
+	else:
+		can1PickUp = False
+		
+	if(robot2Staged < 3):
+		can2PickUp = True
+	else: 
+		can2PickUp = False
+	
 	#Update frames and player cord. 
 	#(the order of the code is the order at which the images are drawn)
 	#===============================================
@@ -204,7 +239,8 @@ while not crashed:
 	drawBall(ballX, ballY)
 	player1(robot1X, robot1Y, player1Rot)
 	player2(robot2X, robot2Y, player2Rot)
-	ballCollision()
+	ballCollision(can1PickUp, can2PickUp)
+	drawStagedBalls()
 	collideReset()
 	
 	#update the screen, and set clock time
