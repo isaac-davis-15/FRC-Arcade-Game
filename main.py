@@ -3,15 +3,6 @@ import time
 import random
 import os
 
-#init
-
-pygame.init()
-
-gameDisplay = pygame.display.set_mode((display_width, display_height))
-pygame.display.set_caption('FRC Game')
-
-clock = pygame.time.Clock()
-
 #game varibles
 
 display_width = 720
@@ -47,15 +38,35 @@ ballY = random.sample(range(-100, 100), 50)
 
 #score varibles
 
-scoreFont = pygame.font.SysFont("monospace", 21)
-
 score1 = 0
 score2 = 0
 
+#init
+
+pygame.init()
+
+gameDisplay = pygame.display.set_mode((display_width, display_height))
+pygame.display.set_caption('FRC Game')
+
+clock = pygame.time.Clock()
+
+scoreFont = pygame.font.SysFont("monospace", 21)
 
 def cls():
     os.system('cls' if os.name=='nt' else 'clear')
 
+def checkGoal():
+	goal1Rect = pygame.Rect(display_width/2 - 240, display_height/2 - 240, 50, 50) #blue
+	goal2Rect = pygame.Rect(display_width/2 + 240, display_height/2 + 240, 50, 50) #red
+	
+	robotRect1 = pygame.Rect(robot1X, robot1Y, roboLength, roboLength)
+	robotRect2 = pygame.Rect(robot2X, robot2Y, roboLength, roboLength)
+
+	if(robotRect1.colliderect(goal1Rect)):
+		robot1Staged -= 1
+	if(robotRect2.colliderect(goal2Rect)):
+		robot2Staged -= 1
+	
 def ballCollision(stage1, stage2):
 	global ballX
 	global ballY
@@ -240,6 +251,7 @@ while not crashed:
 	player1(robot1X, robot1Y, player1Rot)
 	player2(robot2X, robot2Y, player2Rot)
 	ballCollision(can1PickUp, can2PickUp)
+	checkGoal()
 	drawStagedBalls()
 	collideReset()
 	
