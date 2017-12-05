@@ -5,8 +5,8 @@ import os
 
 #game varibles screen size = 1280x1024
 
-display_width = int(1280)
-display_height = int(1024)
+display_width = int(1280/2)
+display_height = int(1024/2)
 
 crashed = False
 
@@ -61,8 +61,8 @@ def checkGoal():
 	global score1
 	global score2
 
-	goal1Rect = pygame.Rect(display_width/2 - 240, display_height/2 - 240, 50, 50) #blue
-	goal2Rect = pygame.Rect(display_width/2 + 240, display_height/2 + 240, 50, 50) #red
+	goal1Rect = pygame.Rect(display_width/2 - 180, display_height/2 - 180, 50, 50) #blue
+	goal2Rect = pygame.Rect(display_width/2 + 180, display_height/2 + 180, 50, 50) #red
 	
 	robotRect1 = pygame.Rect(robot1X, robot1Y, roboLength, roboLength)
 	robotRect2 = pygame.Rect(robot2X, robot2Y, roboLength, roboLength)
@@ -129,9 +129,9 @@ def scoreFrame():
 	gameDisplay.blit(frame,(0, 0))
 	
 def cornFrame():  
-	#240 x 240
+	#180 x 180
 	frame = pygame.image.load('./spr_FRC_game/corn_map.png')
-	gameDisplay.blit(frame, ((display_width/2) - 240, (display_height/2) - 240))
+	gameDisplay.blit(frame, ((display_width/2) - 180, (display_height/2) - 180))
 
 def drawBall(xCorr, yCorr):
 	frame = pygame.image.load('./spr_FRC_game/ball.png')
@@ -150,11 +150,11 @@ def player2(x, y, rot):
 
 def drawRedGoal():
 	tex = pygame.image.load('./spr_FRC_game/read_goal.png')
-	gameDisplay.blit(tex, (display_width/2 + (240 - 50), display_height/2 + (240 - 50)))
+	gameDisplay.blit(tex, (display_width/2 + (180 - 50), display_height/2 + (180 - 50)))
 	
 def drawBlueGoal():
 	tex = pygame.image.load('./spr_FRC_game/blue_goal.png')
-	gameDisplay.blit(tex, (display_width/2 - 240, display_height/2 - 240))
+	gameDisplay.blit(tex, (display_width/2 - 180, display_height/2 - 180))
 	
 def displayScore():
 	lable2 = scoreFont.render(str(score2), 1, (0, 0, 0))
@@ -202,10 +202,10 @@ while not crashed:
 	#Check keyboard and change the cord.
 	#==============================================
 	
-	top_border = display_height/2 - 240
-	bottom_border = display_height/2 + 240
-	right_border = display_width/2 + 240
-	left_border = display_width/2 - 240
+	top_border = display_height/2 - 180
+	bottom_border = display_height/2 + 180
+	right_border = display_width/2 + 180
+	left_border = display_width/2 - 180
 	
 	keyHandler = pygame.key.get_pressed()
 	
