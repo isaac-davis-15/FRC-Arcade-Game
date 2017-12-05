@@ -62,7 +62,7 @@ def checkGoal():
 	global score2
 
 	goal1Rect = pygame.Rect(display_width/2 - 180, display_height/2 - 180, 50, 50) #blue
-	goal2Rect = pygame.Rect(display_width/2 + 180, display_height/2 + 180, 50, 50) #red
+	goal2Rect = pygame.Rect((display_width/2 + 180) - 50, (display_height/2 + 180) - 50, 50, 50) #red
 	
 	robotRect1 = pygame.Rect(robot1X, robot1Y, roboLength, roboLength)
 	robotRect2 = pygame.Rect(robot2X, robot2Y, roboLength, roboLength)
@@ -73,6 +73,7 @@ def checkGoal():
 		robot1Staged -= 1
 		score1 += 1
 	if(robotRect2.colliderect(goal2Rect) and 1 <= robot2Staged <= 4):
+		print("Colo")
 		robot2Staged -= 1
 		score2 += 1
 		
@@ -161,8 +162,8 @@ def displayScore():
 	lable1 = scoreFont.render(str(score1), 1, (0, 0, 0))
 	textWidth1 = lable1.get_width()
 	textWidth2 = lable2.get_width()
-	gameDisplay.blit(lable1, ((display_width/2 - textWidth1/2) - 125, 0))
-	gameDisplay.blit(lable2, ((display_width/2 - textWidth2/2) + 125, 0))	
+	gameDisplay.blit(lable2, ((display_width/2 - textWidth1/2) - 125, 0))
+	gameDisplay.blit(lable1, ((display_width/2 - textWidth2/2) + 125, 0))	
 	
 def collideReset():
 	global robot1X
