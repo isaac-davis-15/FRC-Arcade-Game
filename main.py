@@ -3,10 +3,10 @@ import time
 import random
 import os
 
-#game varibles
+#game varibles screen size = 1280x1024
 
-display_width = 720
-display_height = 600
+display_width = int(1280)
+display_height = int(1024)
 
 crashed = False
 
@@ -56,17 +56,26 @@ def cls():
     os.system('cls' if os.name=='nt' else 'clear')
 
 def checkGoal():
+	global robot1Staged
+	global robot2Staged
+	global score1
+	global score2
+
 	goal1Rect = pygame.Rect(display_width/2 - 240, display_height/2 - 240, 50, 50) #blue
 	goal2Rect = pygame.Rect(display_width/2 + 240, display_height/2 + 240, 50, 50) #red
 	
 	robotRect1 = pygame.Rect(robot1X, robot1Y, roboLength, roboLength)
 	robotRect2 = pygame.Rect(robot2X, robot2Y, roboLength, roboLength)
-
-	if(robotRect1.colliderect(goal1Rect)):
-		robot1Staged -= 1
-	if(robotRect2.colliderect(goal2Rect)):
-		robot2Staged -= 1
 	
+	print(str(robot1Staged) + ", " + str(robot2Staged))
+	
+	if(robotRect1.colliderect(goal1Rect) and 1 <= robot1Staged <= 4):
+		robot1Staged -= 1
+		score1 += 1
+	if(robotRect2.colliderect(goal2Rect) and 1 <= robot2Staged <= 4):
+		robot2Staged -= 1
+		score2 += 1
+		
 def ballCollision(stage1, stage2):
 	global ballX
 	global ballY
@@ -85,11 +94,11 @@ def ballCollision(stage1, stage2):
 			TwoxArg = robot2X < (display_width/2 + ballX[i]) < (robot2X + roboLength) 
 			TwoyArg = robot2Y < (display_width/2 + ballY[i]) - roboLength < (robot2Y + roboLength)
 
-			if(OnexArg and OneyArg and stage1):
+			if(OnexArg and OneyArg and stage1 and robot1Staged < 3):
 				newX.remove(ballX[i])
 				newY.remove(ballY[i])
 				robot1Staged += 1
-			elif(TwoxArg and TwoyArg and stage2):
+			elif(TwoxArg and TwoyArg and stage2 and robot2Staged < 3):
 				newX.remove(ballX[i])
 				newY.remove(ballY[i])
 				robot2Staged += 1
