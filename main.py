@@ -117,11 +117,11 @@ def drawStagedBalls():
 	global robot1Staged
 	global robot2Staged
 	
-	for i in range(robot1Staged):
+	for i in range(len(robot1Staged)):
 		img = pygame.image.load('./spr_FRC_game/ball.png')
 		gameDisplay.blit(img, ((robot1X + roboLength/2) + robot1StagedPos[i], (robot1Y + roboLength/2) + robot1StagedPos[i]))
 
-	for i in range(robot2Staged):
+	for i in range(len(robot2Staged)):
 		img = pygame.image.load('./spr_FRC_game/ball.png')
 		gameDisplay.blit(img, ((robot2X + roboLength/2) + robot2StagedPos[i], (robot2Y + roboLength/2) + robot2StagedPos[i]))
 	 
@@ -160,11 +160,13 @@ def drawBlueGoal():
 def displayScore():
 	lable2 = scoreFont.render(str(score2), 1, (0, 0, 0))
 	lable1 = scoreFont.render(str(score1), 1, (0, 0, 0))
+	elapTime = int(120 - (pygame.time.get_ticks()/1000)) 
+	elapTimeRender = scoreFont.render(str(elapTime), 1, (0, 0, 0))
 	textWidth1 = lable1.get_width()
 	textWidth2 = lable2.get_width()
-	gameDisplay.blit(lable2, ((display_width/2 - textWidth1/2) - 125, 0))
-	gameDisplay.blit(lable1, ((display_width/2 - textWidth2/2) + 125, 0))	
-	
+	gameDisplay.blit(lable2, ((display_width/2 - textWidth1/2) - 75, 0))
+	gameDisplay.blit(lable1, ((display_width/2 - textWidth2/2) + 75, 0))	
+	gameDisplay.blit(elapTimeRender, (display_width/2, 50))
 def collideReset():
 	global robot1X
 	global robot1Y
