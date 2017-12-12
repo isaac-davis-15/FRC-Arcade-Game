@@ -1,12 +1,13 @@
 import pygame
+from pygame.locals import *
 import time 
 import random
 import os
 
 #game varibles screen size = 1280x1024
 
-display_width = int(1280/2)
-display_height = int(1024/2)
+display_width = int(1280/3)
+display_height = int(1024/3)
 
 crashed = False
 
@@ -51,6 +52,25 @@ pygame.display.set_caption('FRC Game')
 clock = pygame.time.Clock()
 
 scoreFont = pygame.font.SysFont("monospace", 21)
+
+#make fullscreen
+
+screen = pygame.display.get_surface()
+tmp = screen.convert()
+caption = pygame.display.get_caption()
+cursor = pygame.mouse.get_cursor()  # Duoas 16-04-2007 
+    
+w,h = screen.get_width(),screen.get_height()
+flags = screen.get_flags()
+bits = screen.get_bitsize()
+    
+screen = pygame.display.set_mode((w,h),flags^FULLSCREEN,bits)
+screen.blit(tmp,(0,0))
+pygame.display.set_caption(*caption)
+
+pygame.key.set_mods(0) #HACK: work-a-round for a SDL bug??
+pygame.mouse.set_cursor( *cursor )  # Duoas 16-04-2007
+    
 
 def cls():
     os.system('cls' if os.name=='nt' else 'clear')
