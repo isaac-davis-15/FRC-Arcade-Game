@@ -6,8 +6,8 @@ import os
 
 #game varibles screen size = 1280x1024
 
-display_width = int(1280/3)
-display_height = int(1024/3)
+display_width = int(1280)
+display_height = int(1024)
 
 crashed = False
 
@@ -26,16 +26,16 @@ robot2Y = display_height/2
 robot1Staged = 0
 robot2Staged = 0
 
-robot1StagedPos = random.sample(range(-10, 10), 6)
-robot2StagedPos = random.sample(range(-10, 10), 6)
+robot1StagedPos = random.sample(range(-20, 20), 6)
+robot2StagedPos = random.sample(range(-20, 20), 6)
 
 player1Rot = 0
 player2Rot = 0
 
 #ball varibles
 
-ballX = random.sample(range(-100, 100), 50)
-ballY = random.sample(range(-100, 100), 50)
+ballX = random.sample(range(-200, 200), 50)
+ballY = random.sample(range(-200, 200), 50)
 
 #score varibles
 
@@ -81,8 +81,8 @@ def checkGoal():
 	global score1
 	global score2
 
-	goal1Rect = pygame.Rect(display_width/2 - 180, display_height/2 - 180, 50, 50) #blue
-	goal2Rect = pygame.Rect((display_width/2 + 180) - 50, (display_height/2 + 180) - 50, 50, 50) #red
+	goal1Rect = pygame.Rect(display_width/2 - 360, display_height/2 - 360, 100, 100) #blue
+	goal2Rect = pygame.Rect((display_width/2 + 360) - 100, (display_height/2 + 360) - 100, 100, 100) #red
 	
 	robotRect1 = pygame.Rect(robot1X, robot1Y, roboLength, roboLength)
 	robotRect2 = pygame.Rect(robot2X, robot2Y, roboLength, roboLength)
@@ -152,7 +152,7 @@ def scoreFrame():
 def cornFrame():  
 	#180 x 180
 	frame = pygame.image.load('./spr_FRC_game/corn_map.png')
-	gameDisplay.blit(frame, ((display_width/2) - 180, (display_height/2) - 180))
+	gameDisplay.blit(frame, ((display_width/2) - 360, (display_height/2) - 360))
 
 def drawBall(xCorr, yCorr):
 	frame = pygame.image.load('./spr_FRC_game/ball.png')
@@ -171,11 +171,11 @@ def player2(x, y, rot):
 
 def drawRedGoal():
 	tex = pygame.image.load('./spr_FRC_game/read_goal.png')
-	gameDisplay.blit(tex, (display_width/2 + (180 - 50), display_height/2 + (180 - 50)))
+	gameDisplay.blit(tex, (display_width/2 + (360 - 50), display_height/2 + (360 - 50)))
 	
 def drawBlueGoal():
 	tex = pygame.image.load('./spr_FRC_game/blue_goal.png')
-	gameDisplay.blit(tex, (display_width/2 - 180, display_height/2 - 180))
+	gameDisplay.blit(tex, (display_width/2 - 360, display_height/2 - 360))
 	
 def displayScore():
 	lable2 = scoreFont.render(str(score2), 1, (0, 0, 0))
@@ -215,6 +215,7 @@ def collideReset():
 		elif(robot2Y < p1CenterY < robot2Y + roboLength and robot1X > robot2X):
 			robot1X += speed/2
 			robot2X -= speed/2
+scoreFrame()
 
 while not crashed:
 	#Check if the game is trying to be closed
@@ -227,10 +228,10 @@ while not crashed:
 	#Check keyboard and change the cord.
 	#==============================================
 	
-	top_border = display_height/2 - 180
-	bottom_border = display_height/2 + 180
-	right_border = display_width/2 + 180
-	left_border = display_width/2 - 180
+	top_border = display_height/2 - 360
+	bottom_border = display_height/2 + 360
+	right_border = display_width/2 + 360
+	left_border = display_width/2 - 360
 	
 	keyHandler = pygame.key.get_pressed()
 	
@@ -275,8 +276,7 @@ while not crashed:
 	
 	#Update frames and player cord. 
 	#(the order of the code is the order at which the images are drawn)
-	#===============================================
-	scoreFrame()
+	#==============================================
 	cornFrame()
 	drawBlueGoal()
 	drawRedGoal()
