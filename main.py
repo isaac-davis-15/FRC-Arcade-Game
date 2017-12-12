@@ -5,8 +5,8 @@ import os
 
 #game varibles screen size = 1280x1024
 
-display_width = int(1280/2)
-display_height = int(1024/2)
+display_width = int(1280)
+display_height = int(1024)
 
 crashed = False
 
