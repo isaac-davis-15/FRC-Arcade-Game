@@ -36,6 +36,8 @@ player2Rot = 0
 ballX = random.sample(range(-100, 100), 50)
 ballY = random.sample(range(-100, 100), 50)
 
+idrrCount = 0
+
 #score varibles
 
 score1 = 0
@@ -166,7 +168,7 @@ def displayScore():
 	textWidth2 = lable2.get_width()
 	gameDisplay.blit(lable2, ((display_width/2 - textWidth1/2) - 75, 0))
 	gameDisplay.blit(lable1, ((display_width/2 - textWidth2/2) + 75, 0))	
-	gameDisplay.blit(elapTimeRender, (display_width/2, 50))
+	gameDisplay.blit(elapTimeRender, (display_width/2 - elapTimeRender .get_width()/2, 50))
 	return elapTime
 	
 def collideReset():
@@ -196,6 +198,34 @@ def collideReset():
 			robot1X += speed/2
 			robot2X -= speed/2
 
+def showFinalScore():
+	global score1
+	global score2
+	
+	crashFinal = True
+	
+	while(crashFinal):
+		events = pygame.event.get()
+		for event in events:
+			if event.type == pygame.QUIT:
+				crashFinal = False
+	
+		gameDisplay.fill((68, 68, 68))
+		player1((display_width/4), display_height/2, 0)
+		player2((display_width/4) * 3, display_height/2, 0)
+		
+		lable2 = scoreFont.render(str(score2), 1, (255, 255, 255))
+		lable1 = scoreFont.render(str(score1), 1, (255, 255, 255))
+		
+		textWidth1 = lable1.get_width()
+		textWidth2 = lable2.get_width()
+		
+		gameDisplay.blit(lable2, ((display_width/4 * 3) - textWidth1/2, 0))
+		gameDisplay.blit(lable1, (display_width/4 - textWidth2/2, 0))
+		
+		pygame.display.update()
+	
+			
 while not crashed:
 	#Check if the game is trying to be closed
 	#==============================================
@@ -270,8 +300,17 @@ while not crashed:
 	collideReset()
 	
 	#if the timer is 0 then crashed it True
-	if(elap == 0):
+	if(elap <= 0):
 		crashed = True
+	
+	#add balls to the screen
+	if(idrrCount > 10):
+		print("test")
+		ballX.append(random.randint(-100, 100))
+		ballY.append(random.randint(-100, 100))
+		idrrCount = 0
+	idrrCount = idrrCount + 1
+	print(idrrCount)
 	
 	#update the screen, and set clock time
 	#===============================================
@@ -280,5 +319,5 @@ while not crashed:
 	
 #exit if game loop is broken 
 #===================================================	
-pygame.quit()
-exit()
+
+showFinalScore()
